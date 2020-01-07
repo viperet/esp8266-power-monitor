@@ -1,0 +1,122 @@
+/* courier-prime-400normal - latin */
+@font-face {
+    font-family: 'Courier Prime';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src:
+        local('Courier Prime Regular '),
+        local('Courier Prime-Regular'),
+        url('~typeface-courier-prime/files/courier-prime-latin-400.woff2') format('woff2'), /* Super Modern Browsers */
+        url('~typeface-courier-prime/files/courier-prime-latin-400.woff') format('woff'); /* Modern Browsers */
+}
+
+.gear{width: 80px; height: 80px; border-radius:10%; margin:80px auto; border:5px solid  #fff ; position:relative;box-shadow:  0 10px 0 0 rgba(0, 0, 0, .1);}
+.gear:after{content:"";width: 100px; height: 100px;border-radius:100%; display:block; border:5px dashed  #fff ;position:absolute; top:-24px; left: -24px; box-shadow: inset 0px 0 0 20px #fff; transform:scale(.5) rotate(0deg);
+ animation:gear 6s linear infinite;}
+.gear:before{content:"";width: 58px; height: 58px;border-radius:100%;
+ display:block; border:5px dashed  #fff ; position:absolute; top:26px; right: -14px; box-shadow: inset 0px 0 0 10px #fff; transform:scale(.5) rotate(0deg);
+ animation:gear2 4s linear infinite;}
+@keyframes gear {
+   0%{transform:scale(.5) rotate(0deg);}
+  100%{transform:scale(.5) rotate(360deg);}
+}
+@keyframes gear2 {
+   0%{transform:scale(.5) rotate(0deg);}
+  100%{transform:scale(.5)  rotate(-360deg);}
+}
+
+html, body {
+    height: 100%;
+    background:
+        radial-gradient(black 15%, transparent 16%) 0 0,
+        radial-gradient(black 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color:#282828;
+    background-size:16px 16px;
+    font-size: 80px;
+}
+
+h1 {
+    font-size: 1em;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 30px 0;
+    margin: 0;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.hidden { display: none; }
+
+.display {
+    text-align: center;
+    background: #000;
+    border-radius: 10px;
+    border: 1px solid rgb(51, 51, 51);
+    -webkit-box-shadow: 0px 0px 2px 6px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 2px 6px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 2px 6px rgba(0,0,0,0.5);
+    margin: 20px;
+    display: flex;
+    align-items: center;
+}
+.display > div {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0.15em 0.1em 0 0.1em;
+    color: #FFF;
+    line-height: 0.8em;
+    text-align: center;
+    font-family: 'Courier Prime';
+    background: linear-gradient(0deg, rgba(255,255,255,1) 20%, rgba(100,100,100,1) 50%, rgba(255,255,255,1) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    &:after {
+        font-family: sans-serif;
+        font-size: 0.5em;
+        padding: 0 0 0 0.5em;
+        -webkit-text-fill-color: rgb(100,100,100);
+    }
+}
+#voltage {
+    font-size: 3em;
+}
+#frequency, #current, #energy, #power, #pf {
+    font-size: 2em;
+}
+#voltage:after {
+    content: 'V';
+}
+#frequency:after {
+    content: 'Hz';
+}
+#current:after {
+    content: 'A';
+}
+#power:after {
+    content: 'W';
+}
+#energy:after {
+    content: 'Wh';
+}
+#pf:after {
+    content: 'pf';
+}
+
+.current, .energy {
+    flex-grow: 2;
+}
+.power, .pf {
+    flex-grow: 1.5;
+}
+@media screen and (max-width: 1024px) {
+}
