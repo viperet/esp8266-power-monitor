@@ -195,41 +195,13 @@ void resetCounter()
 void resetWiFi()
 {
     // erase WiFi settings
-    WiFi.disconnect(true);
+    //WiFi.disconnect(false);
     for (int i = 0; i < 20; ++i)
     {
         digitalWrite(LED_RED, LED_ON);
         delay(100);
         digitalWrite(LED_RED, LED_OFF);
         delay(100);
-    }
-    ESP.reset();
-    delay(1000);
-}
-
-void longPressStop()
-{
-    unsigned long duration = millis() - longStart;
-    if (duration > 5000) {
-        resetWiFi();
-    } else {
-        resetCounter();
-    }
-}
-
-void setup()
-{
-    pinMode(LED_RED, OUTPUT);
-    digitalWrite(LED_RED, LED_OFF);
-    pinMode(LED_GREEN, OUTPUT);
-    digitalWrite(LED_GREEN, LED_OFF);
-    pinMode(LED_BLUE, OUTPUT);
-    digitalWrite(LED_BLUE, LED_OFF);
-    pinMode(BTN_FLASH, INPUT);
-
-    EEPROM.begin(sizeof(mqtt_config));
-    if(EEPROM.read(0) == 'O' && EEPROM.read(1) == 'K') {
-        EEPROM.get(0, mqtt);
     }
 
     //WiFiManager
@@ -258,14 +230,12 @@ void setup()
     //wifiManager.setAPCallback(configModeCallback);
 
     digitalWrite(LED_RED, LED_ON);
-    //fetches ssid and pass and tries to connect
-    //if it does not connect it starts an access point with the specified name
-    //here  "AutoConnectAP"
-    //and goes into a blocking loop awaiting configuration
-    if (!wifiManager.autoConnect("PowerMonitor", NULL)) {
-        //reset and try again, or maybe put it to deep sleep
-        ESP.reset();
-        delay(1000);
+    wifiManager.setDebugOutput(false);
+    if (!wifiManager.startConfigPortal("PowerMonitor")) {
+      delay(1000);
+      //reset and try again, or maybe put it to deep sleep
+      ESP.reset();
+      delay(5000);
     }
     // Connect to WiFi access point.
     //if you get here you have connected to the WiFi
@@ -277,6 +247,76 @@ void setup()
     strcpy(mqtt.pass, custom_mqtt_pass.getValue());
     EEPROM.put(0, mqtt);
     EEPROM.commit();
+
+    ESP.reset();
+    delay(1000);
+}
+
+void longPressStop()
+{
+    unsigned long duration = millis() - longStart;
+    if (duration > 5000) {
+        resetWiFi();
+    } else {
+        resetCounter();
+    }
+}
+
+void setup()
+{
+    pinMode(LED_RED, OUTPUT);
+    digitalWrite(LED_RED, LED_OFF);
+    pinMode(LED_GREEN, OUTPUT);
+    digitalWrite(LED_GREEN, LED_OFF);
+    pinMode(LED_BLUE, OUTPUT);
+    digitalWrite(LED_BLUE, LED_OFF);
+    pinMode(BTN_FLASH, INPUT);
+
+    digitalWrite(LED_RED, LED_ON);
+    delay(1000);
+    digitalWrite(LED_RED, LED_OFF);
+    digitalWrite(LED_GREEN, LED_ON);
+    delay(1000);
+    digitalWrite(LED_GREEN, LED_OFF);
+
+    EEPROM.begin(sizeof(mqtt_config));
+    if(EEPROM.read(0) == 'O' && EEPROM.read(1) == 'K') {
+        EEPROM.get(0, mqtt);
+    } else {
+        resetWiFi();
+    }
+
+    if (WiFi.SSID() != "") {
+        // have saved WiFi settings
+        WiFi.begin();
+        WiFi.setAutoReconnect(true);
+        unsigned long start = millis();
+        boolean keepConnecting = true;
+        uint8_t status;
+        while (keepConnecting) {
+            status = WiFi.status();
+            if (millis() > start + 5000) {
+                keepConnecting = false;
+            }
+            if (status == WL_CONNECTED) {
+                keepConnecting = false;
+            }
+            digitalWrite(LED_RED, LED_ON);
+            delay(100);
+            digitalWrite(LED_RED, LED_OFF);
+            delay(100);
+        }
+        if (status != WL_CONNECTED) {
+            // reboot
+            delay(2000);
+            ESP.reset();
+            delay(1000);
+        }
+    } else {
+        // no saved settings, start config portal
+        resetWiFi();
+    }
+
 
     digitalWrite(LED_RED, LED_OFF);
 
