@@ -2,10 +2,10 @@
 DIY Power Monitor project using PZEM-004T module and ESP-12F
 
 PCB manufactured at JLCPCB
-![PCB](images/pcb.jpg)
+![PCB](images/pcb.JPG)
 
 Device assembled in the DIN-rail enclosure
-![Assembled device](images/assembled.jpg)
+![Assembled device](images/assembled.JPG)
 
 
 Web UI updates data every second using Websockets connection.
