@@ -24,5 +24,5 @@ Web UI updates data every second using Websockets connection.
 ## Building issues
 
 If you see build error `error: 'int SoftwareSerial::availableForWrite()' marked override, but does not override`, you need to
-remove `.pio/libdeps/*/EspSoftwareSerial` folders, and EspSoftwareSerial reference from `.pio/libdeps/esp_ota/PZEM-004T-v30/library.json`
+remove `.pio/libdeps/*/EspSoftwareSerial` folders, and EspSoftwareSerial reference from `.pio/libdeps/*/PZEM-004T-v30/library.json`
 files (remove whole "dependencies" block, don't forget about comman on the previous line).
